@@ -34,3 +34,7 @@ Optional environment variable: SITE_URL=https://your-production-domain.com
 ```
 
 See `docs/deploy-cloudflare-pages.md` for the full setup.
+
+## Comments
+
+Giscus comments are enabled when the required `PUBLIC_GISCUS_*` environment variables are set in Cloudflare Pages. See `docs/comments-giscus.md`.

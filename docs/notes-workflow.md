@@ -60,3 +60,17 @@ drafts/
 ```
 
 When a draft is ready, move it into `posts/`.
+
+## Share Image
+
+The default social share image is:
+
+```text
+public/og-default.png
+```
+
+Every page uses it for Open Graph and Twitter Card previews. A post can override it with frontmatter:
+
+```yaml
+ogImage: /images/my-post-cover.png
+```

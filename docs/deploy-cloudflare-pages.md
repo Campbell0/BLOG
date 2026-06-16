@@ -66,3 +66,7 @@ dist
 ```
 
 If RSS or sitemap links use the wrong domain, update `SITE_URL` in Cloudflare Pages environment variables and redeploy.
+
+## Comments
+
+Comments use Giscus and GitHub Discussions. See `docs/comments-giscus.md` for the required GitHub and Cloudflare Pages environment variable setup.

@@ -18,7 +18,12 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 ---
 
-<BaseLayout title={`${post.data.title} | ${site.title}`} description={post.data.description} type="article">
+<BaseLayout
+  title={`${post.data.title} | ${site.title}`}
+  description={post.data.description}
+  type="article"
+  image={post.data.ogImage ?? '/og-default.png'}
+>
   <article class="article content-shell">
     <p class="eyebrow">article</p>
     <h1>{post.data.title}</h1>

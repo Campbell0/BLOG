@@ -6,9 +6,12 @@ const {
   title = site.title,
   description = site.description,
   type = 'website',
+  image = '/og-default.png',
 } = Astro.props;
 
-const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? site.url).toString();
+const siteUrl = Astro.site ?? site.url;
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
+const imageUrl = new URL(image, siteUrl).toString();
 ---
 
 <!doctype html>
@@ -26,9 +29,16 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? site.url).toStrin
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:secure_url" content={imageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${title} share image`} />
+
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
 
     <title>{title}</title>
   </head>
