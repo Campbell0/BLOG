@@ -23,9 +23,9 @@ Set these variables for Production:
 
 ```text
 PUBLIC_GISCUS_REPO=Campbell0/BLOG
-PUBLIC_GISCUS_REPO_ID=<from giscus.app>
+PUBLIC_GISCUS_REPO_ID=R_kgDOS7-jlA
 PUBLIC_GISCUS_CATEGORY=Announcements
-PUBLIC_GISCUS_CATEGORY_ID=<from giscus.app>
+PUBLIC_GISCUS_CATEGORY_ID=DIC_kwDOS7-jlM4C_Qnu
 ```
 
-After saving the variables, redeploy the site. If any value is missing, the comments section stays hidden.
+These values are also used as defaults in the comments component. Set Cloudflare Pages variables only if you want to override them without changing code.

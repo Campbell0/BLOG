@@ -1,8 +1,8 @@
 ---
-const repo = import.meta.env.PUBLIC_GISCUS_REPO;
-const repoId = import.meta.env.PUBLIC_GISCUS_REPO_ID;
-const category = import.meta.env.PUBLIC_GISCUS_CATEGORY;
-const categoryId = import.meta.env.PUBLIC_GISCUS_CATEGORY_ID;
+const repo = import.meta.env.PUBLIC_GISCUS_REPO ?? 'Campbell0/BLOG';
+const repoId = import.meta.env.PUBLIC_GISCUS_REPO_ID ?? 'R_kgDOS7-jlA';
+const category = import.meta.env.PUBLIC_GISCUS_CATEGORY ?? 'Announcements';
+const categoryId = import.meta.env.PUBLIC_GISCUS_CATEGORY_ID ?? 'DIC_kwDOS7-jlM4C_Qnu';
 const ready = repo && repoId && category && categoryId;
 ---
 
