@@ -17,11 +17,13 @@ Build command: npm run build
 Build output directory: dist
 ```
 
-Set this environment variable in Cloudflare Pages:
+If you have a custom domain, set the production environment variable:
 
 ```text
-SITE_URL=https://your-domain.com
+SITE_URL=https://your-production-domain.com
 ```
+
+If `SITE_URL` is not set, Cloudflare Pages will provide `CF_PAGES_URL` during the build. The site uses that as a fallback. The site publishes `/robots.txt`, `/sitemap.xml`, and `/rss.xml` during the Astro build.
 
 If you do not have a custom domain yet, use your temporary `*.pages.dev` URL first and update it later.
 
@@ -63,4 +65,4 @@ If Cloudflare builds but the site looks old, check that the output directory is 
 dist
 ```
 
-If RSS links use the wrong domain, update `SITE_URL` in Cloudflare Pages environment variables and redeploy.
+If RSS or sitemap links use the wrong domain, update `SITE_URL` in Cloudflare Pages environment variables and redeploy.

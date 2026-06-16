@@ -18,13 +18,13 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 ---
 
-<BaseLayout title={`${post.data.title} | ${site.title}`} description={post.data.description}>
+<BaseLayout title={`${post.data.title} | ${site.title}`} description={post.data.description} type="article">
   <article class="article content-shell">
     <p class="eyebrow">article</p>
     <h1>{post.data.title}</h1>
     <div class="meta-line">
       <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
-      <span>{readingTime(post.body ?? '')} min read</span>
+      <span>{readingTime(post.body)} min read</span>
       {post.data.updatedDate && <span>更新于 {formatDate(post.data.updatedDate)}</span>}
     </div>
 

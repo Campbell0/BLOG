@@ -8,7 +8,7 @@ const { post, compact = false } = Astro.props;
 <article class:list={['post-card', compact && 'compact']}>
   <div class="post-card__meta">
     <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
-    <span>{readingTime(post.body)} min</span>
+    <span>{readingTime(post.body)} min read</span>
   </div>
 
   <h3>

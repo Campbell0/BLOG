@@ -7,7 +7,8 @@ import { site } from '@/site.config';
 
 const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 const featured = posts.filter((post) => post.data.featured).slice(0, 2);
-const latest = posts.slice(0, 4);
+const featuredIds = new Set(featured.map((post) => post.id));
+const latest = posts.filter((post) => !featuredIds.has(post.id)).slice(0, 4);
 ---
 
 <BaseLayout title={`${site.title} | ${site.author}`} description={site.description}>
@@ -15,10 +16,8 @@ const latest = posts.slice(0, 4);
     <div>
       <p class="eyebrow">{site.hero.eyebrow}</p>
       <h1 class="hero__title">{site.hero.title}</h1>
-      <p class="hero__copy">
-        {site.hero.description}
-      </p>
-      <ul class="pill-row" aria-label="站点特性">
+      <p class="hero__copy">{site.hero.description}</p>
+      <ul class="pill-row" aria-label="站点主题">
         {site.hero.highlights.map((item) => <li class="pill">{item}</li>)}
       </ul>
     </div>
@@ -29,17 +28,19 @@ const latest = posts.slice(0, 4);
     </aside>
   </section>
 
-  <section class="feature-band">
-    <SectionHeading
-      eyebrow="featured"
-      title="先从这些文章读起"
-      description="这里放更适合作为入口的文章，用来承接博客的主要主题。"
-    />
+  {featured.length > 0 && (
+    <section class="feature-band">
+      <SectionHeading
+        eyebrow="featured"
+        title="先从这些文章读起"
+        description="这里放更适合作为入口的文章，用来承接博客的主要主题。"
+      />
 
-    <div class="post-grid">
-      {featured.map((post) => <PostCard post={post} />)}
-    </div>
-  </section>
+      <div class="post-grid">
+        {featured.map((post) => <PostCard post={post} />)}
+      </div>
+    </section>
+  )}
 
   <section class="archive-band">
     <SectionHeading

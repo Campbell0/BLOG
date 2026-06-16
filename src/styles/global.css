@@ -6,6 +6,7 @@
   --bg-2: #ebe1d2;
   --surface: rgba(255, 252, 246, 0.78);
   --surface-strong: #fffaf2;
+  --surface-compact: rgba(255, 255, 255, 0.55);
   --text: #161311;
   --muted: #645b50;
   --accent: #0d5c63;
@@ -13,6 +14,23 @@
   --border: rgba(22, 19, 17, 0.12);
   --shadow: 0 18px 50px rgba(56, 37, 18, 0.12);
   --max: 1120px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --bg: #131313;
+    --bg-2: #1d1b18;
+    --surface: rgba(35, 34, 31, 0.82);
+    --surface-strong: #24221f;
+    --surface-compact: rgba(36, 34, 31, 0.88);
+    --text: #f4efe6;
+    --muted: #b8aea0;
+    --accent: #6dc8c5;
+    --accent-soft: rgba(109, 200, 197, 0.14);
+    --border: rgba(244, 239, 230, 0.14);
+    --shadow: 0 18px 50px rgba(0, 0, 0, 0.22);
+  }
 }
 
 * {
@@ -112,6 +130,17 @@ img {
 }
 
 .nav a {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.footer-links {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
   color: var(--muted);
   font-weight: 700;
 }
@@ -236,7 +265,7 @@ main {
 }
 
 .post-card.compact {
-  background: rgba(255, 255, 255, 0.55);
+  background: var(--surface-compact);
 }
 
 .post-card__meta {
@@ -451,6 +480,60 @@ main {
   color: var(--muted);
 }
 
+.about-title {
+  margin: 0;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  line-height: 1;
+  max-width: 12ch;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.about-grid section {
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-strong);
+}
+
+.about-grid h2 {
+  margin: 0 0 10px;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 1.25rem;
+}
+
+.about-grid ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.about-grid li,
+.about-links a {
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.about-links {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
 .site-footer {
   padding: 34px 0 12px;
   color: var(--muted);
@@ -459,7 +542,8 @@ main {
 
 @media (max-width: 880px) {
   .hero,
-  .post-grid {
+  .post-grid,
+  .about-grid {
     grid-template-columns: 1fr;
   }
 }
