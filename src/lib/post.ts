@@ -6,7 +6,7 @@ export function formatDate(value: Date) {
   }).format(value);
 }
 
-export function readingTime(body: string) {
-  const words = body.trim().split(/\s+/).filter(Boolean).length;
+export function readingTime(body?: string) {
+  const words = (body ?? '').trim().split(/\s+/).filter(Boolean).length;
   return Math.max(1, Math.round(words / 180));
 }
