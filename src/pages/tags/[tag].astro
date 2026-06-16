@@ -1,0 +1,43 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PostCard from '@/components/PostCard.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import { getPosts, getTagCounts, slugifyTag, unslugifyTag } from '@/lib/blog';
+import { site } from '@/site.config';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  const tags = getTagCounts(posts);
+
+  return tags.map(({ slug, label, count }) => {
+    const relatedPosts = posts.filter((post) => post.data.tags.some((value) => slugifyTag(value) === slug));
+
+    return {
+      params: { tag: slug },
+      props: {
+        tag: slug,
+        label,
+        count,
+        posts: relatedPosts,
+      },
+    };
+  });
+}
+
+const { tag, label, count, posts } = Astro.props;
+const displayTag = label ?? unslugifyTag(tag);
+---
+
+<BaseLayout title={`${displayTag} | ${site.title}`} description={`标签 ${displayTag} 下的文章。`}>
+  <section class="archive-band">
+    <SectionHeading
+      eyebrow="tag"
+      title={`${displayTag}`}
+      description={`这里共有 ${count} 篇文章。`}
+    />
+
+    <div class="post-grid">
+      {posts.map((post) => <PostCard post={post} />)}
+    </div>
+  </section>
+</BaseLayout>

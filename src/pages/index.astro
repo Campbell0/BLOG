@@ -1,0 +1,55 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PostCard from '@/components/PostCard.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import { getCollection } from 'astro:content';
+import { site } from '@/site.config';
+
+const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+const featured = posts.filter((post) => post.data.featured).slice(0, 2);
+const latest = posts.slice(0, 4);
+---
+
+<BaseLayout title={`${site.title} | ${site.author}`} description={site.description}>
+  <section class="hero">
+    <div>
+      <p class="eyebrow">{site.hero.eyebrow}</p>
+      <h1 class="hero__title">{site.hero.title}</h1>
+      <p class="hero__copy">
+        {site.hero.description}
+      </p>
+      <ul class="pill-row" aria-label="站点特性">
+        {site.hero.highlights.map((item) => <li class="pill">{item}</li>)}
+      </ul>
+    </div>
+
+    <aside class="hero__rail">
+      <strong>{site.status.title}</strong>
+      {site.status.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+    </aside>
+  </section>
+
+  <section class="feature-band">
+    <SectionHeading
+      eyebrow="featured"
+      title="先从这些文章读起"
+      description="这里放更适合作为入口的文章，用来承接博客的主要主题。"
+    />
+
+    <div class="post-grid">
+      {featured.map((post) => <PostCard post={post} />)}
+    </div>
+  </section>
+
+  <section class="archive-band">
+    <SectionHeading
+      eyebrow="latest"
+      title="最新文章"
+      description="按时间记录更新，逐步形成自己的技术时间线。"
+    />
+
+    <div class="post-grid">
+      {latest.map((post) => <PostCard post={post} compact={true} />)}
+    </div>
+  </section>
+</BaseLayout>

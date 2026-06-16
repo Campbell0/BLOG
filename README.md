@@ -1,16 +1,33 @@
-# BLOG
+# Campbell's Blog
 
-这个仓库只同步 Obsidian vault 里的 `BLOG` 文件夹内容。
+An Astro-powered personal blog for Git-managed technical notes, project reviews, search, tags, comments, and RSS.
 
-建议把 GitHub 仓库设为 private。写完博客笔记后，在这个目录运行：
-
-```powershell
-.\scripts\sync-blog.ps1
-```
-
-首次关联 GitHub 远程仓库：
+## Develop
 
 ```powershell
-git remote add origin https://github.com/<your-name>/<your-repo>.git
-git push -u origin main
+npm install
+npm run dev
 ```
+
+## Verify
+
+```powershell
+npm run verify
+```
+
+## Content
+
+Published notes live in `src/content/blog/`.
+
+See `docs/notes-workflow.md` for the writing workflow.
+
+## Deploy
+
+Deploy with Cloudflare Pages Git integration:
+
+```text
+Build command: npm run build
+Build output directory: dist
+```
+
+See `docs/deploy-cloudflare-pages.md` for the full setup.

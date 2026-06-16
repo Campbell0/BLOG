@@ -1,0 +1,47 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+import { formatDate, readingTime } from '@/lib/post';
+import Comments from '@/components/Comments.astro';
+import { slugifyTag } from '@/lib/blog';
+import { site } from '@/site.config';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { id: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<BaseLayout title={`${post.data.title} | ${site.title}`} description={post.data.description}>
+  <article class="article content-shell">
+    <p class="eyebrow">article</p>
+    <h1>{post.data.title}</h1>
+    <div class="meta-line">
+      <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+      <span>{readingTime(post.body ?? '')} min read</span>
+      {post.data.updatedDate && <span>更新于 {formatDate(post.data.updatedDate)}</span>}
+    </div>
+
+    {post.data.hero && <p class="hero__copy">{post.data.hero}</p>}
+
+    {post.data.tags.length > 0 && (
+      <ul class="tag-list article-tags" aria-label="标签">
+        {post.data.tags.map((tag: string) => (
+          <li>
+            <a href={`/tags/${slugifyTag(tag)}/`}>#{tag}</a>
+          </li>
+        ))}
+      </ul>
+    )}
+
+    <Content />
+  </article>
+
+  <Comments />
+</BaseLayout>

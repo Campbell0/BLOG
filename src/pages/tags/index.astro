@@ -1,0 +1,28 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import { getPosts, getTagCounts } from '@/lib/blog';
+import { site } from '@/site.config';
+
+const posts = await getPosts();
+const tags = getTagCounts(posts);
+---
+
+<BaseLayout title={`标签 | ${site.title}`} description="文章标签归档。">
+  <section class="archive-band">
+    <SectionHeading
+      eyebrow="tags"
+      title="标签归档"
+      description="按主题查看所有内容，方便从一个关键词跳到一组相关文章。"
+    />
+
+    <div class="tag-cloud">
+      {tags.map(({ slug, label, count }) => (
+        <a class="tag-cloud__item" href={`/tags/${slug}/`}>
+          <strong>{label}</strong>
+          <span>{count} 篇</span>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

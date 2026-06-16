@@ -1,0 +1,29 @@
+---
+import { formatDate, readingTime } from '@/lib/post';
+import { slugifyTag } from '@/lib/blog';
+
+const { post, compact = false } = Astro.props;
+---
+
+<article class:list={['post-card', compact && 'compact']}>
+  <div class="post-card__meta">
+    <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+    <span>{readingTime(post.body)} min</span>
+  </div>
+
+  <h3>
+    <a href={`/posts/${post.id}/`}>{post.data.title}</a>
+  </h3>
+
+  <p>{post.data.description}</p>
+
+  {post.data.tags.length > 0 && (
+    <ul class="tag-list" aria-label="标签">
+      {post.data.tags.map((tag: string) => (
+        <li>
+          <a href={`/tags/${slugifyTag(tag)}/`}>#{tag}</a>
+        </li>
+      ))}
+    </ul>
+  )}
+</article>

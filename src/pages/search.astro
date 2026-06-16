@@ -1,0 +1,54 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import { makeExcerpt, getPosts } from '@/lib/blog';
+import { site } from '@/site.config';
+
+type SearchItem = {
+  id: string;
+  title: string;
+  description: string;
+  tags: string[];
+  date: string;
+  href: string;
+  excerpt: string;
+};
+
+const posts = await getPosts();
+const searchIndex: SearchItem[] = posts.map((post) => ({
+  id: post.id,
+  title: post.data.title,
+  description: post.data.description,
+  tags: post.data.tags,
+  date: post.data.pubDate.toISOString(),
+  href: `/posts/${post.id}/`,
+  excerpt: makeExcerpt(post.body ?? '', 220),
+}));
+---
+
+<BaseLayout title={`搜索 | ${site.title}`} description="在博客里查找文章、标签和内容。">
+  <section class="search-page">
+    <SectionHeading
+      eyebrow="search"
+      title="站内搜索"
+      description="输入关键词后，会同时匹配标题、摘要、标签和正文片段。"
+    />
+
+    <div class="search-panel" data-search-root>
+      <label class="search-field">
+        <span class="search-field__label">关键词</span>
+        <input type="search" placeholder="例如：技术笔记、复盘、工程实践" data-search-input />
+      </label>
+
+      <div class="search-meta">
+        <span data-search-count>{searchIndex.length} 篇文章</span>
+        <span class="search-meta__hint">支持标题、描述、标签和正文</span>
+      </div>
+
+      <div class="search-results" data-search-results></div>
+    </div>
+
+    <script is:inline type="application/json" id="search-index" set:html={JSON.stringify(searchIndex)}></script>
+    <script is:inline src="/search.js" defer></script>
+  </section>
+</BaseLayout>

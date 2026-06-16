@@ -1,15 +1,24 @@
-# OS/editor noise
-.DS_Store
-Thumbs.db
-desktop.ini
-*.tmp
-*.temp
+# dependencies
+node_modules/
 
-# Local-only drafts
-_drafts/
-
-# Build outputs, if this folder is later used by a static site generator
+# build output
 dist/
 .astro/
-.vite/
-node_modules/
+
+# local environment
+.env
+.env.local
+.env.*.local
+
+# local-only drafts
+_drafts/
+
+# logs
+*.log
+npm-debug.log*
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
