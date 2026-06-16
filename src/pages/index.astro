@@ -1,56 +1,28 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PostCard from '@/components/PostCard.astro';
-import SectionHeading from '@/components/SectionHeading.astro';
 import { getCollection } from 'astro:content';
 import { site } from '@/site.config';
 
 const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
-const featured = posts.filter((post) => post.data.featured).slice(0, 2);
-const featuredIds = new Set(featured.map((post) => post.id));
-const latest = posts.filter((post) => !featuredIds.has(post.id)).slice(0, 4);
 ---
 
 <BaseLayout title={`${site.title} | ${site.author}`} description={site.description}>
-  <section class="hero">
-    <div>
-      <p class="eyebrow">{site.hero.eyebrow}</p>
-      <h1 class="hero__title">{site.hero.title}</h1>
-      <p class="hero__copy">{site.hero.description}</p>
-      <ul class="pill-row" aria-label="站点主题">
-        {site.hero.highlights.map((item) => <li class="pill">{item}</li>)}
-      </ul>
-    </div>
-
-    <aside class="hero__rail">
-      <strong>{site.status.title}</strong>
-      {site.status.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
-    </aside>
+  <section class="intro">
+    <h1 class="intro-title">
+      Java 后端开发。<br />
+      写技术笔记，也写<span class="highlight">项目复盘</span>。
+    </h1>
+    <p class="intro-bio">
+      这里是我的长期写作空间。不追求一次性写得多好，但尽量把问题、过程和判断记清楚。
+      写给自己，也写给可能路过的人。
+    </p>
   </section>
 
-  {featured.length > 0 && (
-    <section class="feature-band">
-      <SectionHeading
-        eyebrow="featured"
-        title="先从这些文章读起"
-        description="这里放更适合作为入口的文章，用来承接博客的主要主题。"
-      />
-
-      <div class="post-grid">
-        {featured.map((post) => <PostCard post={post} />)}
-      </div>
-    </section>
-  )}
-
-  <section class="archive-band">
-    <SectionHeading
-      eyebrow="latest"
-      title="最新文章"
-      description="按时间记录更新，逐步形成自己的技术时间线。"
-    />
-
-    <div class="post-grid">
-      {latest.map((post) => <PostCard post={post} compact={true} />)}
+  <section class="posts-list">
+    <div class="posts-label">Posts</div>
+    <div class="timeline-list">
+      {posts.map((post) => <PostCard post={post} />)}
     </div>
   </section>
 </BaseLayout>

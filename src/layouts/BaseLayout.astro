@@ -23,6 +23,8 @@ const imageUrl = new URL(image, siteUrl).toString();
     <meta name="generator" content={Astro.generator} />
     <link rel="canonical" href={canonicalUrl} />
     <link rel="alternate" type="application/rss+xml" title={`${site.title} RSS`} href="/rss.xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     <meta property="og:type" content={type} />
     <meta property="og:site_name" content={site.title} />
@@ -40,22 +42,39 @@ const imageUrl = new URL(image, siteUrl).toString();
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={imageUrl} />
 
+    <script is:inline>
+      const storedTheme = localStorage.getItem('theme');
+      const preferredTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.dataset.theme = storedTheme || preferredTheme;
+    </script>
+
     <title>{title}</title>
   </head>
   <body>
+    <div class="progress-bar" data-progress-bar></div>
+    <div class="sparkle-container" data-sparkles></div>
+
     <div class="page-shell">
       <header class="site-header">
-        <a class="brand" href="/" aria-label="返回首页">
-          <span class="brand-mark">{site.title}</span>
-          <span class="brand-sub">{site.tagline}</span>
-        </a>
-        <nav class="nav">
-          <a href="/posts">文章</a>
-          <a href="/tags">标签</a>
-          <a href="/search">搜索</a>
-          <a href="/about">关于</a>
-          <a href="/rss.xml">RSS</a>
-        </nav>
+        <div class="header-left">
+          <button class="wave-button" type="button" aria-label="Wave">Hi</button>
+          <a class="brand" href="/" aria-label="返回首页">
+            <span class="brand-mark">Campbell</span>
+          </a>
+        </div>
+
+        <div class="header-right">
+          <nav class="nav">
+            <a href="/posts">Writing</a>
+            <a href="/tags">Tags</a>
+            <a href="/search">Search</a>
+            <a href="/about">About</a>
+            <a href="/rss.xml">RSS</a>
+          </nav>
+          <button class="theme-toggle" type="button" aria-label="切换主题" data-theme-toggle>
+            <span class="theme-toggle__knob" data-theme-knob>☀</span>
+          </button>
+        </div>
       </header>
 
       <main>
@@ -65,11 +84,66 @@ const imageUrl = new URL(image, siteUrl).toString();
       <footer class="site-footer">
         <p>{site.footer}</p>
         <nav class="footer-links" aria-label="站点链接">
-          <a href="/rss.xml">RSS</a>
-          <a href="/sitemap.xml">Sitemap</a>
+          <a href="https://github.com/Campbell0">github</a>
+          <a href="/rss.xml">rss</a>
+          <a href="/sitemap.xml">sitemap</a>
         </nav>
       </footer>
     </div>
+
+    <script is:inline>
+      const root = document.documentElement;
+      const progressBar = document.querySelector('[data-progress-bar]');
+      const toggle = document.querySelector('[data-theme-toggle]');
+      const knob = document.querySelector('[data-theme-knob]');
+      const sparkles = document.querySelector('[data-sparkles]');
+      const wave = document.querySelector('.wave-button');
+
+      const syncThemeIcon = () => {
+        if (knob) knob.textContent = root.dataset.theme === 'dark' ? '☾' : '☀';
+      };
+
+      syncThemeIcon();
+
+      toggle?.addEventListener('click', () => {
+        const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+        root.dataset.theme = next;
+        localStorage.setItem('theme', next);
+        syncThemeIcon();
+      });
+
+      window.addEventListener('scroll', () => {
+        const scrollTop = document.documentElement.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+        if (progressBar) progressBar.style.width = `${progress}%`;
+      }, { passive: true });
+
+      document.querySelectorAll('[data-sparkle-link]').forEach((link) => {
+        link.addEventListener('click', (event) => {
+          if (!sparkles) return;
+          for (let i = 0; i < 8; i += 1) {
+            const dot = document.createElement('span');
+            dot.className = 'sparkle';
+            const angle = (Math.PI * 2 * i) / 8;
+            const distance = 18 + Math.random() * 18;
+            dot.style.left = `${event.clientX + Math.cos(angle) * distance}px`;
+            dot.style.top = `${event.clientY + Math.sin(angle) * distance}px`;
+            const size = 3 + Math.random() * 5;
+            dot.style.width = `${size}px`;
+            dot.style.height = `${size}px`;
+            sparkles.appendChild(dot);
+            window.setTimeout(() => dot.remove(), 650);
+          }
+        });
+      });
+
+      wave?.addEventListener('click', () => {
+        wave.classList.remove('is-waving');
+        void wave.offsetWidth;
+        wave.classList.add('is-waving');
+      });
+    </script>
     <script is:inline defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"c60d81af2c7849c189560f78774c69cd"}'></script>
   </body>
 </html>
