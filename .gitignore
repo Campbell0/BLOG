@@ -1,0 +1,15 @@
+# OS/editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
+*.tmp
+*.temp
+
+# Local-only drafts
+_drafts/
+
+# Build outputs, if this folder is later used by a static site generator
+dist/
+.astro/
+.vite/
+node_modules/
