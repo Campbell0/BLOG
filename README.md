@@ -17,7 +17,7 @@ npm run verify
 
 ## Content
 
-Published notes live in `src/content/blog/`.
+Published notes live in `posts/`.
 
 See `docs/notes-workflow.md` for the writing workflow.
 

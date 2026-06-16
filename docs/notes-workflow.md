@@ -7,7 +7,7 @@ This repository treats blog posts as Git-managed Markdown notes.
 Put published notes in:
 
 ```text
-src/content/blog/
+posts/
 ```
 
 Each note is a Markdown file with frontmatter:
@@ -29,7 +29,7 @@ hero: 文章页开头的一句话引导
 
 ## Writing Loop
 
-1. Create a Markdown file in `src/content/blog/`.
+1. Create a Markdown file in `posts/`.
 2. Run `npm run dev` and preview the note locally.
 3. Run `npm run verify` before pushing.
 4. Commit the change to Git.
@@ -53,10 +53,10 @@ This keeps URLs stable and easy to read.
 
 ## Drafts
 
-For now, keep drafts outside `src/content/blog/` so they do not publish. A simple local folder works:
+For now, keep drafts outside `posts/` so they do not publish. A simple local folder works:
 
 ```text
 drafts/
 ```
 
-When a draft is ready, move it into `src/content/blog/`.
+When a draft is ready, move it into `posts/`.
