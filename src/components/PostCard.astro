@@ -1,10 +1,11 @@
 ---
 import { formatShortDate } from '@/lib/post';
+import { getPostUrl } from '@/lib/blog';
 
 const { post } = Astro.props;
 ---
 
-<a class="post-card" href={`/posts/${post.id}/`} data-sparkle-link>
+<a class="post-card" href={getPostUrl(post)} data-sparkle-link>
   <time class="post-card__date" datetime={post.data.pubDate.toISOString()}>{formatShortDate(post.data.pubDate)}</time>
   <span class="post-card__body">
     <span class="post-card__title">{post.data.title}</span>

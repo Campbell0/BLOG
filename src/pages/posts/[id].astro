@@ -3,13 +3,13 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import { render } from 'astro:content';
 import { formatDate, readingTime } from '@/lib/post';
 import Comments from '@/components/Comments.astro';
-import { getPosts, slugifyTag } from '@/lib/blog';
+import { getPostSlug, getPostUrl, getPosts, slugifyTag } from '@/lib/blog';
 import { site } from '@/site.config';
 
 export async function getStaticPaths() {
   const posts = await getPosts();
   return posts.map((post, index) => ({
-    params: { id: post.id },
+    params: { id: getPostSlug(post) },
     props: {
       post,
       previousPost: posts[index - 1] ?? null,
@@ -55,14 +55,14 @@ const { Content } = await render(post);
   {(previousPost || nextPost) && (
     <nav class="article-nav content-shell" aria-label="文章导航">
       {previousPost && (
-        <a class="article-nav__link" href={`/posts/${previousPost.id}/`}>
+        <a class="article-nav__link" href={getPostUrl(previousPost)}>
           <span class="article-nav__label">上一篇</span>
           <strong>{previousPost.data.title}</strong>
         </a>
       )}
 
       {nextPost && (
-        <a class="article-nav__link article-nav__link--next" href={`/posts/${nextPost.id}/`}>
+        <a class="article-nav__link article-nav__link--next" href={getPostUrl(nextPost)}>
           <span class="article-nav__label">下一篇</span>
           <strong>{nextPost.data.title}</strong>
         </a>

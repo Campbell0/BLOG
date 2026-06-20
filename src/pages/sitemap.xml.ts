@@ -1,5 +1,5 @@
 import type { APIContext } from 'astro';
-import { getPosts, getTagCounts } from '@/lib/blog';
+import { getPostUrl, getPosts, getTagCounts } from '@/lib/blog';
 
 export async function GET(context: APIContext) {
   const site = context.site ?? new URL('https://example.com');
@@ -12,7 +12,7 @@ export async function GET(context: APIContext) {
     '/tags/',
     '/search/',
     '/rss.xml',
-    ...posts.map((post) => `/posts/${post.id}/`),
+    ...posts.map((post) => getPostUrl(post)),
     ...tags.map((tag) => `/tags/${tag.slug}/`),
   ];
 

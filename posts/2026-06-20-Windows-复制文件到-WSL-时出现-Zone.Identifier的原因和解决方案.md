@@ -1,5 +1,6 @@
 ---
 title: Windows 复制文件到 WSL 时出现 Zone.Identifier 的原因和解决方案
+slug: 2026-06-20-windows-wsl-zone-identifier
 description: 解释 Windows 文件复制到 WSL 后生成 :Zone.Identifier 文件的原因，并给出快速清理命令。
 pubDate: 2026-06-20
 updatedDate: 2026-06-20

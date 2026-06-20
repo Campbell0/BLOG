@@ -23,6 +23,14 @@ export function getTagCounts(posts: Awaited<ReturnType<typeof getPosts>>) {
     .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label));
 }
 
+export function getPostSlug(post: { id: string; data: { slug?: string } }) {
+  return post.data.slug ?? post.id;
+}
+
+export function getPostUrl(post: { id: string; data: { slug?: string } }) {
+  return `/posts/${getPostSlug(post)}/`;
+}
+
 export function normalizeTag(tag: string) {
   return tag.trim().toLowerCase();
 }

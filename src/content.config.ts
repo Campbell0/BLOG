@@ -6,6 +6,10 @@ const blog = defineCollection({
   loader: glob({ base: './posts', pattern: '**/*.md' }),
   schema: z.object({
     title: z.string(),
+    slug: z
+      .string()
+      .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'Use lowercase letters, numbers, and hyphens only.')
+      .optional(),
     description: z.string(),
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),

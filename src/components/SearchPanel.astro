@@ -1,14 +1,14 @@
 ---
-import { getPosts, makeExcerpt } from '@/lib/blog';
+import { getPostSlug, getPostUrl, getPosts, makeExcerpt } from '@/lib/blog';
 
 const posts = await getPosts();
 const searchIndex = posts.map((post) => ({
-  id: post.id,
+  id: getPostSlug(post),
   title: post.data.title,
   description: post.data.description,
   tags: post.data.tags,
   date: post.data.pubDate.toISOString(),
-  href: `/posts/${post.id}/`,
+  href: getPostUrl(post),
   excerpt: makeExcerpt(post.body ?? '', 220),
 }));
 ---
