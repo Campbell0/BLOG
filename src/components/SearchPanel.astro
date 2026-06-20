@@ -1,0 +1,42 @@
+---
+import { getPosts, makeExcerpt } from '@/lib/blog';
+
+const posts = await getPosts();
+const searchIndex = posts.map((post) => ({
+  id: post.id,
+  title: post.data.title,
+  description: post.data.description,
+  tags: post.data.tags,
+  date: post.data.pubDate.toISOString(),
+  href: `/posts/${post.id}/`,
+  excerpt: makeExcerpt(post.body ?? '', 220),
+}));
+---
+
+<div class="search-overlay" data-search-panel hidden>
+  <button class="search-overlay__backdrop" type="button" aria-label="关闭搜索" data-search-close></button>
+  <section class="search-dialog" role="dialog" aria-modal="true" aria-label="站内搜索" data-search-root>
+    <div class="search-dialog__header">
+      <span>Search</span>
+      <button type="button" aria-label="关闭搜索" data-search-close>Esc</button>
+    </div>
+
+    <label class="search-box search-box--panel" aria-label="站内搜索">
+      <span class="search-box__icon">⌕</span>
+      <input
+        type="search"
+        placeholder="搜索技术笔记、复盘、工程实践..."
+        autocomplete="off"
+        data-search-input
+      />
+    </label>
+
+    <div class="search-command__meta">
+      <span data-search-count>{searchIndex.length} 篇文章</span>
+      <span>Enter 打开第一条结果</span>
+    </div>
+
+    <div class="search-results search-results--panel" data-search-results></div>
+    <script is:inline type="application/json" data-search-index set:html={JSON.stringify(searchIndex)}></script>
+  </section>
+</div>

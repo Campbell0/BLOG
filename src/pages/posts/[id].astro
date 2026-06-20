@@ -1,20 +1,24 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import { getCollection, render } from 'astro:content';
+import { render } from 'astro:content';
 import { formatDate, readingTime } from '@/lib/post';
 import Comments from '@/components/Comments.astro';
-import { slugifyTag } from '@/lib/blog';
+import { getPosts, slugifyTag } from '@/lib/blog';
 import { site } from '@/site.config';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
-  return posts.map((post) => ({
+  const posts = await getPosts();
+  return posts.map((post, index) => ({
     params: { id: post.id },
-    props: { post },
+    props: {
+      post,
+      previousPost: posts[index - 1] ?? null,
+      nextPost: posts[index + 1] ?? null,
+    },
   }));
 }
 
-const { post } = Astro.props;
+const { post, previousPost, nextPost } = Astro.props;
 const { Content } = await render(post);
 ---
 
@@ -47,6 +51,24 @@ const { Content } = await render(post);
 
     <Content />
   </article>
+
+  {(previousPost || nextPost) && (
+    <nav class="article-nav content-shell" aria-label="文章导航">
+      {previousPost && (
+        <a class="article-nav__link" href={`/posts/${previousPost.id}/`}>
+          <span class="article-nav__label">上一篇</span>
+          <strong>{previousPost.data.title}</strong>
+        </a>
+      )}
+
+      {nextPost && (
+        <a class="article-nav__link article-nav__link--next" href={`/posts/${nextPost.id}/`}>
+          <span class="article-nav__label">下一篇</span>
+          <strong>{nextPost.data.title}</strong>
+        </a>
+      )}
+    </nav>
+  )}
 
   <Comments />
 </BaseLayout>

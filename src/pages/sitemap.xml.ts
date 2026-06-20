@@ -11,7 +11,6 @@ export async function GET(context: APIContext) {
     '/posts/',
     '/tags/',
     '/search/',
-    '/about/',
     '/rss.xml',
     ...posts.map((post) => `/posts/${post.id}/`),
     ...tags.map((tag) => `/tags/${tag.slug}/`),

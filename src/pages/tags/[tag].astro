@@ -11,6 +11,8 @@ export async function getStaticPaths() {
 
   return tags.map(({ slug, label, count }) => {
     const relatedPosts = posts.filter((post) => post.data.tags.some((value) => slugifyTag(value) === slug));
+    const visibleTags = tags.slice(0, 10);
+    const sidebarTags = visibleTags.some((item) => item.slug === slug) ? visibleTags : [...visibleTags, { slug, label, count }];
 
     return {
       params: { tag: slug },
@@ -19,25 +21,45 @@ export async function getStaticPaths() {
         label,
         count,
         posts: relatedPosts,
+        allPostsCount: posts.length,
+        sidebarTags,
       },
     };
   });
 }
 
-const { tag, label, count, posts } = Astro.props;
+const { tag, label, count, posts, allPostsCount, sidebarTags } = Astro.props;
 const displayTag = label ?? unslugifyTag(tag);
 ---
 
 <BaseLayout title={`${displayTag} | ${site.title}`} description={`标签 ${displayTag} 下的文章。`}>
-  <section class="archive-band">
-    <SectionHeading
-      eyebrow="tag"
-      title={`${displayTag}`}
-      description={`这里共有 ${count} 篇文章。`}
-    />
+  <section class="archive-layout">
+    <div class="archive-main">
+      <SectionHeading
+        title={`${displayTag}`}
+        description={`这里共有 ${count} 篇文章。`}
+      />
 
-    <div class="post-grid">
-      {posts.map((post) => <PostCard post={post} />)}
+      <div class="post-grid">
+        {posts.map((post) => <PostCard post={post} />)}
+      </div>
     </div>
+
+    <aside class="archive-sidebar" aria-labelledby="category-heading">
+      <p class="posts-label">Browse</p>
+      <h2 id="category-heading">标签</h2>
+      <div class="category-list">
+        <a class="category-link" href="/">
+          <span>全部文章</span>
+          <strong>{allPostsCount}</strong>
+        </a>
+        {sidebarTags.map(({ slug, label, count }) => (
+          <a class:list={['category-link', slug === tag && 'is-active']} href={`/tags/${slug}/`}>
+            <span>{label}</span>
+            <strong>{count}</strong>
+          </a>
+        ))}
+      </div>
+    </aside>
   </section>
 </BaseLayout>

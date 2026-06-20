@@ -1,28 +1,42 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PostCard from '@/components/PostCard.astro';
-import { getCollection } from 'astro:content';
+import SectionHeading from '@/components/SectionHeading.astro';
+import { getPosts, getTagCounts } from '@/lib/blog';
 import { site } from '@/site.config';
 
-const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+const posts = await getPosts();
+const tags = getTagCounts(posts).slice(0, 10);
 ---
 
 <BaseLayout title={`${site.title} | ${site.author}`} description={site.description}>
-  <section class="intro">
-    <h1 class="intro-title">
-      Java 后端开发。<br />
-      写技术笔记，也写<span class="highlight">项目复盘</span>。
-    </h1>
-    <p class="intro-bio">
-      这里是我的长期写作空间。不追求一次性写得多好，但尽量把问题、过程和判断记清楚。
-      写给自己，也写给可能路过的人。
-    </p>
-  </section>
+  <section class="archive-layout">
+    <div class="archive-main">
+      <SectionHeading
+        title="文章列表"
+        description="这里直接进入完整文章时间线。按时间回看，也可以从右侧标签跳到某个主题。"
+      />
 
-  <section class="posts-list">
-    <div class="posts-label">Posts</div>
-    <div class="timeline-list">
-      {posts.map((post) => <PostCard post={post} />)}
+      <div class="post-grid">
+        {posts.map((post) => <PostCard post={post} />)}
+      </div>
     </div>
+
+    <aside class="archive-sidebar" aria-labelledby="category-heading">
+      <p class="posts-label">Browse</p>
+      <h2 id="category-heading">标签</h2>
+      <div class="category-list">
+        <a class="category-link is-active" href="/">
+          <span>全部文章</span>
+          <strong>{posts.length}</strong>
+        </a>
+        {tags.map(({ slug, label, count }) => (
+          <a class="category-link" href={`/tags/${slug}/`}>
+            <span>{label}</span>
+            <strong>{count}</strong>
+          </a>
+        ))}
+      </div>
+    </aside>
   </section>
 </BaseLayout>

@@ -1,41 +1,17 @@
 ---
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import PostCard from '@/components/PostCard.astro';
-import SectionHeading from '@/components/SectionHeading.astro';
-import { getPosts, getTagCounts } from '@/lib/blog';
-import { site } from '@/site.config';
-
-const posts = await getPosts();
-const tags = getTagCounts(posts).slice(0, 8);
+const target = '/';
 ---
 
-<BaseLayout title={`文章 | ${site.title}`} description="所有文章按时间排序。">
-  <section class="archive-band">
-    <SectionHeading
-      eyebrow="archive"
-      title="文章列表"
-      description="从这里进入完整文章时间线，适合按时间回看与继续扩展分类。"
-    />
-
-    <div class="post-grid">
-      {posts.map((post) => <PostCard post={post} />)}
-    </div>
-  </section>
-
-  <section class="archive-band">
-    <SectionHeading
-      eyebrow="browse"
-      title="按标签继续看"
-      description="从这里跳到某个主题的文章集合。"
-    />
-
-    <div class="tag-cloud">
-      {tags.map(({ slug, label, count }) => (
-        <a class="tag-cloud__item" href={`/tags/${slug}/`}>
-          <strong>{label}</strong>
-          <span>{count} 篇</span>
-        </a>
-      ))}
-    </div>
-  </section>
-</BaseLayout>
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <link rel="canonical" href={target} />
+    <title>Redirecting...</title>
+  </head>
+  <body>
+    <p><a href={target}>Redirecting to writing index...</a></p>
+  </body>
+</html>

@@ -1,5 +1,6 @@
 ---
 import '@/styles/global.css';
+import SearchPanel from '@/components/SearchPanel.astro';
 import { site } from '@/site.config';
 
 const {
@@ -57,7 +58,7 @@ const imageUrl = new URL(image, siteUrl).toString();
     <div class="page-shell">
       <header class="site-header">
         <div class="header-left">
-          <button class="wave-button" type="button" aria-label="Wave">Hi</button>
+          <button class="wave-button" type="button" aria-label="Wave">👋</button>
           <a class="brand" href="/" aria-label="返回首页">
             <span class="brand-mark">Campbell</span>
           </a>
@@ -65,14 +66,29 @@ const imageUrl = new URL(image, siteUrl).toString();
 
         <div class="header-right">
           <nav class="nav">
-            <a href="/posts">Writing</a>
-            <a href="/tags">Tags</a>
-            <a href="/search">Search</a>
-            <a href="/about">About</a>
+            <a href="/">Writing</a>
+            <button type="button" data-search-open>Search</button>
             <a href="/rss.xml">RSS</a>
           </nav>
           <button class="theme-toggle" type="button" aria-label="切换主题" data-theme-toggle>
-            <span class="theme-toggle__knob" data-theme-knob>☀</span>
+            <span class="theme-toggle__icon theme-toggle__sun" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <circle cx="12" cy="12" r="4"></circle>
+                <path d="M12 2v2"></path>
+                <path d="M12 20v2"></path>
+                <path d="m4.93 4.93 1.41 1.41"></path>
+                <path d="m17.66 17.66 1.41 1.41"></path>
+                <path d="M2 12h2"></path>
+                <path d="M20 12h2"></path>
+                <path d="m6.34 17.66-1.41 1.41"></path>
+                <path d="m19.07 4.93-1.41 1.41"></path>
+              </svg>
+            </span>
+            <span class="theme-toggle__icon theme-toggle__moon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path d="M20.99 12.42A8.5 8.5 0 1 1 11.58 3a6.5 6.5 0 0 0 9.41 9.42Z"></path>
+              </svg>
+            </span>
           </button>
         </div>
       </header>
@@ -82,34 +98,54 @@ const imageUrl = new URL(image, siteUrl).toString();
       </main>
 
       <footer class="site-footer">
-        <p>{site.footer}</p>
         <nav class="footer-links" aria-label="站点链接">
-          <a href="https://github.com/Campbell0">github</a>
-          <a href="/rss.xml">rss</a>
-          <a href="/sitemap.xml">sitemap</a>
+          <a href="https://github.com/Campbell0">GitHub</a>
         </nav>
       </footer>
     </div>
+
+    <SearchPanel />
 
     <script is:inline>
       const root = document.documentElement;
       const progressBar = document.querySelector('[data-progress-bar]');
       const toggle = document.querySelector('[data-theme-toggle]');
-      const knob = document.querySelector('[data-theme-knob]');
       const sparkles = document.querySelector('[data-sparkles]');
       const wave = document.querySelector('.wave-button');
 
       const syncThemeIcon = () => {
-        if (knob) knob.textContent = root.dataset.theme === 'dark' ? '☾' : '☀';
+        toggle?.setAttribute('aria-label', root.dataset.theme === 'dark' ? '切换到亮色模式' : '切换到暗色模式');
       };
 
       syncThemeIcon();
 
-      toggle?.addEventListener('click', () => {
-        const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+      const setTheme = (next) => {
         root.dataset.theme = next;
         localStorage.setItem('theme', next);
         syncThemeIcon();
+      };
+
+      toggle?.addEventListener('click', () => {
+        const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        toggle.classList.remove('is-switching-to-dark', 'is-switching-to-light');
+        void toggle.offsetWidth;
+        toggle.classList.add(`is-switching-to-${next}`);
+        window.setTimeout(() => {
+          toggle.classList.remove('is-switching-to-dark', 'is-switching-to-light');
+        }, 620);
+
+        if (!document.startViewTransition || reduceMotion) {
+          setTheme(next);
+          return;
+        }
+
+        root.classList.add('is-changing-theme');
+
+        const transition = document.startViewTransition(() => setTheme(next));
+        transition.finished.finally(() => {
+          root.classList.remove('is-changing-theme');
+        });
       });
 
       window.addEventListener('scroll', () => {
@@ -144,6 +180,7 @@ const imageUrl = new URL(image, siteUrl).toString();
         wave.classList.add('is-waving');
       });
     </script>
+    <script is:inline src="/search.js" defer></script>
     <script is:inline defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"c60d81af2c7849c189560f78774c69cd"}'></script>
   </body>
 </html>
