@@ -1,26 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <!-- Background rounded square -->
-  <rect x="4" y="4" width="56" height="56" rx="14" fill="#EEF0FF"/>
-  <!-- Blob body -->
-  <ellipse cx="32" cy="36" rx="21" ry="19" fill="#5b6ef5"/>
-  <!-- Subtle highlight -->
-  <ellipse cx="26" cy="30" rx="15" ry="12" fill="#6e7ff7" opacity="0.2"/>
+  <!-- Blue rounded square background -->
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="#5b6ef5"/>
   <!-- Left eye white -->
-  <circle cx="24" cy="30" r="5.5" fill="white"/>
+  <circle cx="23" cy="28" r="8" fill="white"/>
   <!-- Right eye white -->
-  <circle cx="40" cy="30" r="5.5" fill="white"/>
+  <circle cx="41" cy="28" r="8" fill="white"/>
   <!-- Left pupil -->
-  <circle cx="25.5" cy="30.5" r="2.8" fill="#1a1a2e"/>
+  <circle cx="25" cy="29" r="4.5" fill="#1a1a2e"/>
   <!-- Right pupil -->
-  <circle cx="41.5" cy="30.5" r="2.8" fill="#1a1a2e"/>
-  <!-- Eye highlights -->
-  <circle cx="26.5" cy="29" r="1.1" fill="white"/>
-  <circle cx="42.5" cy="29" r="1.1" fill="white"/>
+  <circle cx="43" cy="29" r="4.5" fill="#1a1a2e"/>
   <!-- Smile -->
-  <path d="M28 42 Q32 46.5 36 42" stroke="#1a1a2e" fill="none" stroke-width="2" stroke-linecap="round"/>
-  <!-- Blush cheeks -->
-  <ellipse cx="17" cy="38" rx="4.5" ry="2.8" fill="#ff9ff3" opacity="0.3"/>
-  <ellipse cx="47" cy="38" rx="4.5" ry="2.8" fill="#ff9ff3" opacity="0.3"/>
+  <path d="M22 42 Q32 50 42 42" stroke="white" fill="none" stroke-width="3.5" stroke-linecap="round"/>
   <!-- Sparkle star -->
-  <path d="M50 8 L51.5 11.5 L55 12.5 L51.5 13.5 L50 17 L48.5 13.5 L45 12.5 L48.5 11.5Z" fill="#FFD43B"/>
+  <path d="M52 6 L54 10 L58 11 L54 12 L52 16 L50 12 L46 11 L50 10Z" fill="#FFD43B"/>
 </svg>
