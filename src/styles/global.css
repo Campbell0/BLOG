@@ -11,6 +11,7 @@
   --hover: #f3f1ee;
   --accent: #5b6ef5;
   --accent-soft: rgba(91, 110, 245, 0.08);
+  --accent-line: rgba(91, 110, 245, 0.34);
   --glow: rgba(91, 110, 245, 0.16);
   --toggle-bg: #e8e6e3;
   --toggle-knob: #ffffff;
@@ -34,6 +35,7 @@
   --hover: #1a1a1a;
   --accent: #7b8ff7;
   --accent-soft: rgba(123, 143, 247, 0.1);
+  --accent-line: rgba(123, 143, 247, 0.42);
   --glow: rgba(123, 143, 247, 0.14);
   --toggle-bg: #333333;
   --toggle-knob: #e8e8e8;
@@ -197,6 +199,7 @@ img {
 }
 
 .brand-mark {
+  position: relative;
   color: var(--text);
   font-size: 18px;
   font-weight: 600;
@@ -529,6 +532,7 @@ main > :not(.archive-layout) {
 }
 
 .category-link {
+  position: relative;
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: center;
@@ -556,6 +560,10 @@ main > :not(.archive-layout) {
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
   font-weight: 500;
+}
+
+.category-link.is-active strong {
+  color: var(--accent);
 }
 
 .archive-return {
@@ -681,6 +689,13 @@ main > :not(.archive-layout) {
   letter-spacing: 0;
 }
 
+.section-heading h2::selection,
+.article h1::selection,
+.brand-mark::selection {
+  background: var(--accent);
+  color: #fff;
+}
+
 .section-heading p,
 .article :where(p, ul, ol, blockquote),
 .about-panel p {
@@ -759,6 +774,7 @@ main > :not(.archive-layout) {
   border-radius: 12px;
   background: #171614 !important;
   box-shadow:
+    inset 3px 0 0 var(--accent-line),
     inset 0 1px 0 rgba(255, 255, 255, 0.04),
     0 10px 26px rgba(30, 26, 20, 0.08);
   overflow-x: auto;
@@ -773,6 +789,7 @@ main > :not(.archive-layout) {
   border-color: rgba(255, 255, 255, 0.18);
   background: #10100f !important;
   box-shadow:
+    inset 3px 0 0 var(--accent-line),
     inset 0 1px 0 rgba(255, 255, 255, 0.035),
     0 12px 28px rgba(0, 0, 0, 0.2);
 }

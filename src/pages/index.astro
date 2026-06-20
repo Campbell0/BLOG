@@ -13,8 +13,8 @@ const tags = getTagCounts(posts).slice(0, 10);
   <section class="archive-layout">
     <div class="archive-main">
       <SectionHeading
-        title="文章列表"
-        description="这里直接进入完整文章时间线。按时间回看，也可以从右侧标签跳到某个主题。"
+        title="全部文章"
+        description={`当前共有 ${posts.length} 篇文章`}
       />
 
       <div class="post-grid">

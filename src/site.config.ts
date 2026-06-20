@@ -2,7 +2,7 @@ export const site = {
   title: "Campbell's Blog",
   author: 'Campbell',
   url: import.meta.env.SITE_URL ?? import.meta.env.CF_PAGES_URL ?? 'https://example.com',
-  description: '记录技术学习、项目复盘和长期写作的个人博客。',
+  description: '个人博客',
   tagline: 'tech notes, project logs, and thinking in public',
   footer: '把问题写清楚，把经验留下来。',
   hero: {
